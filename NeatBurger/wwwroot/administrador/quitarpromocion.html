@@ -1,0 +1,67 @@
+﻿<html>
+<head>
+    <link href="../estilos.css" rel="stylesheet" />
+    <title>Administrador Neat Burguer</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Principal</a>
+            <a href="menu.html">Menú</a>
+        </nav>
+    </header>
+    <main>
+
+        <form>
+            <h1>Eliminar promoción</h1>
+
+            <span class="pregunta"><b>¿Desea eliminar la promoción de la hamburguesa?</b></span>
+            <span>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+            </span>
+            <span>
+                <label for="precio">Precio real:</label>
+                <input type="text" id="precio" required>
+            </span><span>
+                <label for="promocion">Precio promocion:</label>
+                <input type="text" id="promocion" required>
+            </span>
+            <span class="error">Area de errores</span>
+
+            <div class="botones">
+                <input type="submit" value="Si" />
+                <a href="menu.html">
+                    <input type="button" value="No" />
+                </a>
+            </div>
+        </form>
+
+        <script>
+
+            function previewImagen() {
+                const inputImagen = document.getElementById('imagen');
+                const imagenPreview = document.getElementById('imagen-preview');
+
+                const archivoImagen = inputImagen.files[0];
+
+                if (archivoImagen) {
+                    const lector = new FileReader();
+
+                    lector.onload = function (e) {
+                        imagenPreview.src = e.target.result;
+                        imagenPreview.style.display = 'block';
+                    };
+
+                    lector.readAsDataURL(archivoImagen);
+                } else {
+                    imagenPreview.src = '#';
+                    imagenPreview.style.display = 'none';
+                }
+            }
+        </script>
+
+
+    </main>
+</body>
+</html>

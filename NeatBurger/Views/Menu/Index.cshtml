@@ -1,0 +1,30 @@
+﻿@model NeatBurger.Models.ViewModels.IndexViewModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "AnonLayout";
+}
+
+<section class="menu3">
+
+    <div>
+        <h1>NUESTRO MENÚ</h1>
+        <h3>Tradicionales</h3>
+        @foreach(var Producto in Model.MenuList)
+        {
+            if(Model.MenuList.IndexOf(Producto) == Model.SelectedProduct)
+            {
+                <h2 class="seleccionado"><a href="~/Menu/@Producto.Nombre.Replace(" ","-")"><span>@Producto.Nombre</span> <span class="price">@Producto.Precio.ToString("c")</span></a></h2>
+            }
+            <h2><a href="~/Menu/@Producto.Nombre.Replace(" ","-")"><span >@Producto.Nombre</span> <span class="price">@Producto.Precio.ToString("c")</span></a></h2>
+        }
+        <h3>Favoritas del chef</h3>
+        @foreach(var ProductoFavChef in Model.ChefFavList)
+        {
+            <h2><a href="~/Menu/@ProductoFavChef.Nombre.Replace(" ","-")"><span>@ProductoFavChef.Nombre</span> <span class="price">@ProductoFavChef.Precio.ToString("c")</span></a></h2>
+        }
+    </div>
+    <div>
+        <img src="~/hamburguesas/@(Model.MenuList[Model.SelectedProduct].ProductId).png" />
+        <p>@Model.MenuList[Model.SelectedProduct].Descripción</p>
+    </div>
+</section>
