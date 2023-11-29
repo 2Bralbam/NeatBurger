@@ -6,6 +6,7 @@ using NeatBurger.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddMvc();
 builder.Services.AddTransient<GenericRepository<Menu>>();
+builder.Services.AddTransient<MenuRepository>();
 builder.Services.AddDbContext<NeatContext>(
     optionsBuilder => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=neat", 
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.30-mysql"))
