@@ -1,0 +1,67 @@
+﻿@model NeatBurger.Areas.Admin.Models.ViewModels.EditMenuViewModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout="AdminLayout";
+}
+
+<form method="post" action="~/Admin/Editar-Menu/">
+    <h1>Editar hamburguesa del menú</h1>
+    <span>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" asp-for="EditModel.Nombre" required>
+    </span>
+
+    <span>
+        <label for="precio">Precio:</label>
+        <input type="number" id="precio" min="0" step="0.01" asp-for="EditModel.Precio" required>
+    </span>
+
+    <span>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" asp-for="EditModel.Descripción" required></textarea>
+    </span>
+
+    <span>
+        <label for="clasificacion">Clasificación:</label>
+        <select asp-for="EditModel.Id" asp-items="@(new SelectList(Model.Clasificaciones,"Id","Nombre"))" id="clasificacion" required >
+            <option>Tendencias</option>
+        </select>
+    </span>
+
+    <span>
+        <label for="imagen">Imagen:</label>
+        <input asp-for="formFile" type="file" id="imagen" accept="image/png" onchange="previewImagen()">
+        <img id="imagen-preview" src="~/hamburguesas/(@Model.EditModel.Id).png">
+    </span>
+
+    <div class="botones">
+        <input type="submit" value="Guardar" />
+        <a href="menu.html">
+            <input type="button" value="Cancelar" />
+        </a>
+    </div>
+</form>
+
+<script>
+
+    function previewImagen() {
+        const inputImagen = document.getElementById('imagen');
+        const imagenPreview = document.getElementById('imagen-preview');
+
+        const archivoImagen = inputImagen.files[0];
+
+        if (archivoImagen) {
+            const lector = new FileReader();
+
+            lector.onload = function (e) {
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+
+            lector.readAsDataURL(archivoImagen);
+        } else {
+            imagenPreview.src = '#';
+            imagenPreview.style.display = 'none';
+        }
+    }
+</script>

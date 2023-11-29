@@ -1,0 +1,39 @@
+﻿@model NeatBurger.Areas.Admin.Models.ViewModels.AdminMenuViewModel
+@{
+    Layout = "AdminLayout";
+}
+<section class="menu2">
+    @foreach(var Categoria in Model.MenuList)
+    {
+        <h1>@Categoria.NombreCategoria</h1>
+        @foreach (var Menu in Categoria.Menus)
+        {
+            <div>
+                <img src="~/hamburguesas/@(Menu.Id).png" />
+                <h1>@Menu.Nombre</h1>
+                <h2>
+                    @if (Menu.PrecioPromocion != 0)
+                    {
+                        <del>@Menu.Precio.ToString("c")</del>
+                    }
+                    
+
+                    <br />@(Menu.PrecioPromocion == 0 ? Menu.Precio.ToString("c") : Menu.PrecioPromocion.ToString("c"))
+                    </h2>
+                <p>
+                    @Menu.Descripcion
+                </p>
+
+                <span class="acciones">
+                    <a href="~/Admin/Editar-Menu/@(Menu.Id)">Editar</a>
+                    <a href="eliminar.html">Eliminar</a>
+                    <a href="quitarpromocion.html">Quitar promoción</a>
+
+                </span>
+            </div>
+        }
+    }
+    
+
+    <a class="fab" href="agregar.html">+</a>
+</section>
