@@ -40,6 +40,14 @@ namespace NeatBurger.Repositories
                 Descripción = x.Descripción
             }).FirstOrDefault();
         }
+        public IEnumerable<Menu> GetAllMenusWithPromo()
+        {
+            return _context.Menu.Where(x => x.PrecioPromocion != null && x.PrecioPromocion >= 1);
+        }
+        public Menu? GetMenuPromByName(string Id)
+        {
+            return _context.Menu.FirstOrDefault(x => x.Nombre == Id && (x.PrecioPromocion != null && x.PrecioPromocion > 0));
+        }
         public List<MenusByCategorias> GetCategoriasMenus()
         {
             List<MenusByCategorias> l = new();

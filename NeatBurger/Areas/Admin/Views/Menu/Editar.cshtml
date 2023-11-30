@@ -31,7 +31,7 @@
     <span>
         <label for="imagen">Imagen:</label>
         <input asp-for="formFile" type="file" id="imagen" accept="image/png" onchange="previewImagen()">
-        <img id="imagen-preview" src="~/hamburguesas/(@Model.EditModel.Id).png">
+        <img id="imagen-preview" src="~/hamburguesas/@(Model.EditModel.Id).png">
     </span>
 
     <div class="botones">

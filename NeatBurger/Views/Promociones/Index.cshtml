@@ -1,19 +1,20 @@
-﻿@{
+﻿@model NeatBurger.Models.ViewModels.PromocionesViewModel;
+@{
     Layout = "AnonLayout";
 }
 
 <section class="menu1">
-    <img src="hamburguesas/1.png" />
+    <img src="hamburguesas/@(Model.Promocion.Id).png" />
     <div class="datos">
         <h3>
-            <del>$110.99</del>
-            <b>$100.99</b>
+            <del>@Model.Promocion.Precio.ToString("c")</del>
+            <b>@Model.Promocion.PrecioPromocio.ToString("c")</b>
         </h3>
-        <h2>CUARTO DE LIBRA CON QUESO</h2>
-        <p>Un cuarto de libra de carne de res con dos rebanas de queso, cebolla, pepinillos, mostaza y una porción de tomate, todo en un pan con ajonjolí.</p>
+        <h2>@Model.Promocion.Nombre</h2>
+        <p>@Model.Promocion.Descripcion</p>
     </div>
     <span>
-        <a href="promociones.html">&lt;</a>
-        <a href="promociones.html">&gt;</a>
+        <a href="~/Promociones/@Model.PromocionAnterior.Replace(" ","-")">&lt;</a>
+        <a href="~/Promociones/@Model.PromocionSiguiente.Replace(" ","-")">&gt;</a>
     </span>
 </section>

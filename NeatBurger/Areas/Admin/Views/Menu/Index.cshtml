@@ -26,8 +26,16 @@
 
                 <span class="acciones">
                     <a href="~/Admin/Editar-Menu/@(Menu.Id)">Editar</a>
-                    <a href="eliminar.html">Eliminar</a>
-                    <a href="quitarpromocion.html">Quitar promoción</a>
+                    <a href="~/Admin/Eliminar/@(Menu.Id).html">Eliminar</a>
+                    @if (Menu.PrecioPromocion == 0)
+                    {
+                        <a href="~/Admin/AgregarPromocion/@Menu.Id">Agregar Promoción</a>
+
+                    }
+                    else
+                    {
+                        <a href="~/Admin/QuitarPromocion/@Menu.Id">Quitar promoción</a>
+                    }
 
                 </span>
             </div>

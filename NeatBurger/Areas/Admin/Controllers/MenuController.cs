@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NeatBurger.Areas.Admin.Models.Entities;
 using NeatBurger.Areas.Admin.Models.ViewModels;
 using NeatBurger.Models.Entities;
 using NeatBurger.Repositories;
@@ -67,7 +68,37 @@ namespace NeatBurger.Areas.Admin.Controllers
             M.Precio = m.Precio;
 
             _menuRepository.Update(M);
-            return View(vm);
+            return View(m);
+        }
+        public IActionResult Agregar() 
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Agregar(EditModel Menu) 
+        {
+            if (string.IsNullOrEmpty(Menu.Descripcion))
+            {
+                return RedirectToAction("Index");
+            }
+            if (string.IsNullOrEmpty(Menu.Nombre))
+            {
+                return RedirectToAction("Index");
+            }
+            if (Menu.Precio == 0)
+            {
+                return RedirectToAction("Index");
+            }
+            Menu M = new()
+            {
+                Nombre = Menu.Nombre,
+                Descripción = Menu.Descripcion,
+                Precio = (double)Menu.Precio,
+                IdClasificacion = Menu.ClasificacionId,
+                Id = 0
+            };
+            _menuRepository.Insert(M);
+            return View(M);
         }
     }
 }
