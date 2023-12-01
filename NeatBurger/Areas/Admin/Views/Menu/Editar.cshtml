@@ -4,11 +4,12 @@
     Layout="AdminLayout";
 }
 
-<form method="post" action="~/Admin/Editar-Menu/">
+<form method="post" action="~/Admin/Menu/Editar">
     <h1>Editar hamburguesa del menú</h1>
     <span>
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" asp-for="EditModel.Nombre" required>
+        <input type="hidden" asp-for="EditModel.Id" />
     </span>
 
     <span>
@@ -23,7 +24,7 @@
 
     <span>
         <label for="clasificacion">Clasificación:</label>
-        <select asp-for="EditModel.Id" asp-items="@(new SelectList(Model.Clasificaciones,"Id","Nombre"))" id="clasificacion" required >
+        <select asp-for="EditModel.IdClasificacion" asp-items="@(new SelectList(Model.Clasificaciones,"Id","Nombre"))" id="clasificacion" required >
             <option>Tendencias</option>
         </select>
     </span>

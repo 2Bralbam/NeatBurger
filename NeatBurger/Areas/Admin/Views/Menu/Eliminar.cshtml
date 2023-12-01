@@ -1,0 +1,44 @@
+﻿@{
+    Layout = "AdminLayout";
+}
+<form>
+    <h1>Eliminar hamburguesa del menú</h1>
+
+    <span class="pregunta"><b>¿Desea eliminar la hamburguesa?</b></span>
+    <span>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required>
+    </span>
+    <span class="error">Area de errores</span>
+
+    <div class="botones">
+        <input type="submit" value="Si" />
+        <a href="menu.html">
+            <input type="button" value="No" />
+        </a>
+    </div>
+</form>
+
+<script>
+
+    function previewImagen() {
+        const inputImagen = document.getElementById('imagen');
+        const imagenPreview = document.getElementById('imagen-preview');
+
+        const archivoImagen = inputImagen.files[0];
+
+        if (archivoImagen) {
+            const lector = new FileReader();
+
+            lector.onload = function (e) {
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+
+            lector.readAsDataURL(archivoImagen);
+        } else {
+            imagenPreview.src = '#';
+            imagenPreview.style.display = 'none';
+        }
+    }
+</script>

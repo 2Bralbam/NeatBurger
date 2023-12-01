@@ -41,34 +41,63 @@ namespace NeatBurger.Areas.Admin.Controllers
             };
             return View(vm);
         }
-        [Route("Admin/Editar-Menu/{Id}")]
         [HttpPost]
-        public IActionResult Editar(Menu m)
+        public IActionResult Editar(EditMenuViewModel vm)
         {
-            if (string.IsNullOrEmpty(m.Descripción))
+            if (string.IsNullOrEmpty(vm.EditModel.Descripción))
             {
+                ModelState.AddModelError("Descripción", "La descripción no puede estar vacia");
                 return RedirectToAction("Index");
             }
-            if (string.IsNullOrEmpty(m.Nombre))
+            if (string.IsNullOrEmpty(vm.EditModel.Nombre))
             {
+                ModelState.AddModelError("Nombre", "El nombre no puede estar vacio");
                 return RedirectToAction("Index");
             }
-            if (m.Precio ==0)
+            if (vm.EditModel.Precio ==0)
             {
+                ModelState.AddModelError("Precio", "El precio no puede ser 0");
                 return RedirectToAction("Index");
             }
-            Menu? M = _menuRepository.GeById(m.Id);
+            Menu? M = _menuRepository.GeById(vm.EditModel.Id);
+            if (vm.formFile != null)
+            {
 
+                if (vm.formFile.ContentType != "image/jpeg")
+                {
+                    ModelState.AddModelError("formFile", "El archivo debe ser de tipo jpeg");
+                    return RedirectToAction("Index");
+                }
+                if (vm.formFile.Length > (500 * 1024))
+                {
+                    ModelState.AddModelError("formFile", "El archivo no puede ser mayor a 500kb");
+                    return RedirectToAction("Index");
+                }
+            }
+            else 
+            {
+
+            }
             if (M is null)
             {
                 return RedirectToAction("Index");
             }
-            M.Nombre = m.Nombre;
-            M.Descripción = m.Descripción;
-            M.Precio = m.Precio;
+                M.Nombre = vm.EditModel.Nombre;
+                M.Descripción = vm.EditModel.Descripción;
+                M.Precio = vm.EditModel.Precio;
 
-            _menuRepository.Update(M);
-            return View(m);
+                _menuRepository.Update(M);
+                if (vm.formFile == null)
+                {
+                    System.IO.File.Copy($"wwwroot/images/burger.png", $"wwwroot/hamburguesas/{M.Id}.jpeg");
+                }
+                else 
+                {
+                    System.IO.FileStream fs = System.IO.File.Create($"wwwroot/hamburguesas/{M.Id}.jpeg");
+                    vm.formFile.CopyTo(fs);
+                    fs.Close();
+                }
+            return RedirectToAction("Index");
         }
         public IActionResult Agregar() 
         {
@@ -99,6 +128,25 @@ namespace NeatBurger.Areas.Admin.Controllers
             };
             _menuRepository.Insert(M);
             return View(M);
+        }
+        [Route("Admin/Eliminar/{Id}")]
+        public IActionResult Eliminar(int Id) 
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Eliminar(Menu M)
+        {
+            Menu? m = _menuRepository.GeById(M.Id);
+            if (m == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else 
+            {
+                _menuRepository.Delete(m);
+            }
+            return RedirectToAction("Index");
         }
     }
 }
