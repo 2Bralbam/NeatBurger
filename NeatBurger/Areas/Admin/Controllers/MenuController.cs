@@ -221,5 +221,58 @@ namespace NeatBurger.Areas.Admin.Controllers
             }
             return View(vm);
         }
+        [Route("Admin/Menu/QuitarPromocion/{Id}")]
+        public IActionResult QuitarPromocion(string Id) 
+        {
+            if (string.IsNullOrEmpty(Id)) 
+            { 
+                ModelState.AddModelError("","El nombre de la hamburguesa no puede ser nulo");
+            }
+            Id=Id.Replace("-", " ");
+            Menu? menu = _menuRepository.GetMenuPorNombre(Id);
+            if (menu == null)
+            {
+                ModelState.AddModelError("", "Esta hamburguesa no existe");
+                return RedirectToAction("Index");
+            }
+            else 
+            {
+                AgregarPromocionViewModel vm = new()
+                {
+                    Precio = (decimal)menu.Precio,
+                    PrecioPromocion = (decimal)(menu.PrecioPromocion ?? 0),
+                    Nombre = menu.Nombre,
+                    Id = menu.Id
+                };
+                return View(vm);
+            }
+        }
+        [HttpPost]
+        [Route("Admin/QuitarPromocion")]
+        public IActionResult QuitarPromocion(AgregarPromocionViewModel vm) 
+        {
+            if (string.IsNullOrEmpty(vm.Nombre))
+            {
+                ModelState.AddModelError("Nombre", "El nombre no puede estar vacio");
+            }
+            if (decimal.IsNegative(vm.Precio) || vm.Precio == 0)
+            {
+                ModelState.AddModelError("Precio", "El precio no puede ser negativo o 0");
+            }
+            if (decimal.IsNegative(vm.PrecioPromocion) || vm.PrecioPromocion == 0)
+            {
+                ModelState.AddModelError("PrecioPromocion", "El precio de promocion no puede ser negativo o 0");
+            }
+            if (ModelState.IsValid)
+            {
+                Menu menu = _menuRepository.GetMenuPorNombre(vm.Nombre);
+                menu.PrecioPromocion = null;
+                menu.Precio = (double)vm.Precio;
+                menu.Nombre = vm.Nombre;
+                _menuRepository.Update(menu);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }
