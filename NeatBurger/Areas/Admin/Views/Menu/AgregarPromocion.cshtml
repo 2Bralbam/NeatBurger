@@ -1,0 +1,29 @@
+﻿@model NeatBurger.Areas.Admin.Models.ViewModels.AgregarPromocionViewModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "AdminLayout";
+}
+<form action="~/Admin/AgregarPromocion" method="post">
+    <h1>Agregar un descuento de promoción</h1>
+
+    <span>
+        <label for="nombre">Nombre:</label>
+        <input asp-for="Nombre" type="text" id="nombre" required>
+    </span>
+    <span>
+        <label for="precio">Precio real:</label>
+        <input asp-for="Precio" type="text" id="precio" required>
+    </span>
+    <span>
+        <label for="promocion">Precio promoción:</label>
+        <input asp-for="PrecioPromocion" type="text" id="promocion" required>
+    </span>
+    <span class="error">@Html.ValidationSummary(true)</span>
+
+    <div class="botones">
+        <input type="submit" value="Agregar" />
+        <a href="~/Admin/Index">
+            <input type="button" value="Cancelar" />
+        </a>
+    </div>
+</form>
