@@ -130,14 +130,35 @@ namespace NeatBurger.Areas.Admin.Controllers
             return View(M);
         }
         [Route("Admin/Eliminar/{Id}")]
-        public IActionResult Eliminar(int Id) 
+        public IActionResult Eliminar(string Id) 
         {
-            return View();
+            EliminarViewModel vm = new();
+            if (string.IsNullOrEmpty(Id)) 
+            {
+                ModelState.AddModelError("", "El nombre de la hamburguesa no puede ser nulo");
+                return RedirectToAction("Index");
+            }
+            if (ModelState.IsValid) 
+            {
+                Menu? menu = _menuRepository.GetMenuPorNombre(Id.Replace("-", " "));
+                if (menu == null)
+                {
+                    ModelState.AddModelError("", "Esta hamburguesa no existe");
+                    return RedirectToAction("Index");
+                }
+                else 
+                {
+                    vm.Nombre = menu.Nombre;
+                    vm.Id = menu.Id;
+                }
+            
+            }
+            return View(vm);
         }
         [HttpPost]
-        public IActionResult Eliminar(Menu M)
+        public IActionResult Eliminar(EliminarViewModel M)
         {
-            Menu? m = _menuRepository.GeById(M.Id);
+            Menu? m = _menuRepository.GetMenuPorNombre(M.Nombre);
             if (m == null)
             {
                 return RedirectToAction("Index");

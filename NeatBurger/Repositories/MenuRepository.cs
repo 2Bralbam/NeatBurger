@@ -20,6 +20,10 @@ namespace NeatBurger.Repositories
         {
             return _context.Menu.Include(x=>x.IdClasificacionNavigation).FirstOrDefault(x => x.Id == Id);
         }
+        public Menu? GetMenuPorNombre(string Nombre) 
+        {
+            return _context.Menu.FirstOrDefault(x => x.Nombre == Nombre);
+        }
         public FoodMenuDisplayModel? GetMenuByName(string Nombre)
         {
             return _context.Menu.Where(x => x.Nombre == Nombre).Select(x => new FoodMenuDisplayModel

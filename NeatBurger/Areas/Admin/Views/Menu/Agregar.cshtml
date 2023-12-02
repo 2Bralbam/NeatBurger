@@ -1,0 +1,66 @@
+﻿@model NeatBurger.Models.Entities.Menu;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "AdminLayout";
+}
+<form>
+    <h1>Agregar hamburguesa al menú</h1>
+    <span>
+        <label for="nombre">Nombre:</label>
+        <input asp-for="Nombre" type="text" id="nombre" required>
+    </span>
+
+    <span>
+        <label for="precio">Precio:</label>
+        <input type="number" asp-for="Precio" id="precio" min="0" step="0.01" required>
+    </span>
+
+    <span>
+        <label for="descripcion">Descripción:</label>
+        <textarea id="descripcion" asp-for="Descripción" required></textarea>
+    </span>
+
+    <span>
+        <label for="clasificacion">Clasificación:</label>
+        <select id="clasificacion" required>
+            <option>Tendencias</option>
+        </select>
+    </span>
+
+    <span>
+        <label for="imagen">Imagen:</label>
+        <input type="file" id="imagen" asp-for="Id" accept="image/png" onchange="previewImagen()">
+        <img id="imagen-preview" src="~/images/burger.png">
+    </span>
+
+    <div class="botones">
+        <input type="submit" value="Agregar" />
+        <a href="menu.html">
+            <input type="button" value="Cancelar" />
+        </a>
+    </div>
+</form>
+
+<script>
+
+    function previewImagen() {
+        const inputImagen = document.getElementById('imagen');
+        const imagenPreview = document.getElementById('imagen-preview');
+
+        const archivoImagen = inputImagen.files[0];
+
+        if (archivoImagen) {
+            const lector = new FileReader();
+
+            lector.onload = function (e) {
+                imagenPreview.src = e.target.result;
+                imagenPreview.style.display = 'block';
+            };
+
+            lector.readAsDataURL(archivoImagen);
+        } else {
+            imagenPreview.src = '#';
+            imagenPreview.style.display = 'none';
+        }
+    }
+</script>

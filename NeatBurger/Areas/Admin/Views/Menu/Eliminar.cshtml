@@ -1,19 +1,22 @@
-﻿@{
+﻿@model NeatBurger.Areas.Admin.Models.ViewModels.EliminarViewModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     Layout = "AdminLayout";
 }
-<form>
+<form method="post" action="~/Admin/Menu/Eliminar">
     <h1>Eliminar hamburguesa del menú</h1>
 
     <span class="pregunta"><b>¿Desea eliminar la hamburguesa?</b></span>
     <span>
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required>
+        <input asp-for="Nombre" type="text" id="nombre" required>
+        <input type="hidden" asp-for="Id" />
     </span>
-    <span class="error">Area de errores</span>
+    <span class="error">@Html.ValidationSummary(true)</span>
 
     <div class="botones">
         <input type="submit" value="Si" />
-        <a href="menu.html">
+        <a href="~/">
             <input type="button" value="No" />
         </a>
     </div>

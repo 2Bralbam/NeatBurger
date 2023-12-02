@@ -25,16 +25,16 @@
                 </p>
 
                 <span class="acciones">
-                    <a href="~/Admin/Editar-Menu/@(Menu.Id)">Editar</a>
-                    <a href="~/Admin/Eliminar/@(Menu.Id)">Eliminar</a>
+                    <a href="~/Admin/Editar-Menu/@(Menu.Nombre.Replace(" ","-"))">Editar</a>
+                    <a href="~/Admin/Eliminar/@(Menu.Nombre.Replace(" ","-"))">Eliminar</a>
                     @if (Menu.PrecioPromocion == 0)
                     {
-                        <a href="~/Admin/AgregarPromocion/@Menu.Id">Agregar Promoción</a>
+                        <a href="~/Admin/AgregarPromocion/@Menu.Nombre.Replace(" ","-")">Agregar Promoción</a>
 
                     }
                     else
                     {
-                        <a href="~/Admin/QuitarPromocion/@Menu.Id">Quitar promoción</a>
+                        <a href="~/Admin/QuitarPromocion/@Menu.Nombre.Replace(" ","-")">Quitar promoción</a>
                     }
 
                 </span>
